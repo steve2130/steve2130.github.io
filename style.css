@@ -7,8 +7,5 @@ div.youtube-box {
 }
 
 a.link {
-  padding: 10px 5px; 
-  background-color: rgb(240, 242, 252);
-
-  text-decoration: none;
+  color: blue;
 }
