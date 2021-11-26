@@ -1,9 +1,16 @@
 body {
     background-color: black; 
-    margin-left: 5vw;
-    margin-top: 5vh;
+    margin-left: 5%;
+    margin-top: 5%;
   }
   
+@media (min-width: 600px) {
+    body {
+      width: 50%;
+    }
+}
+
+
 p {
     color: white;
     font-family: "Helvetica";
