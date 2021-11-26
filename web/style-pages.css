@@ -12,15 +12,24 @@ div.image-box{
         padding: 0;
         text-align: center;
 
+
+
         height: 100%;
         width: auto;
-
 }
 
 img {
     object-fit: contain;
+
     height: 100%;
     width: auto;
+
+    max-height: 100%;
+    max-width: 100%;
+
+    padding: 0;
+
+
 }
 
 .split {
