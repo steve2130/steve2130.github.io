@@ -1,0 +1,39 @@
+body {
+    background-color: black; 
+    margin-left: 5vw;
+    margin-top: 5vh;
+  }
+  
+p {
+    color: white;
+    font-family: "Helvetica";
+    font-size: 1.35rem;
+  }
+  
+a.link {
+    padding: 7px 13px; 
+    background-color: #696969;
+    color: rgb(240, 242, 252);
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: "Helvetica";
+    margin-bottom: 2rem;
+    font-size: 1.35rem;
+  }
+  
+td {
+    margin-bottom: 16px;
+}
+  
+  
+@font-face {
+  /*Johnston*/
+     font-family: "Johnston";
+     src: url("P22 Johnston Underground Regular.ttf");
+  }
+  
+@font-face {
+  /*Helvetica*/
+     font-family: "Helvetica";
+     src: url("Helvetica.ttf");
+  }
