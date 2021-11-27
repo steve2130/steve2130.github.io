@@ -4,15 +4,14 @@ html, body {
 
     height: 100%;
     background-color: transparent;
+    overflow: hidden;
 }
 
 div.image-box{
         margin-left: auto;
         margin-right: auto;
-        padding: 0;
         text-align: center;
-
-
+        padding: 0;
 
         height: 100%;
         width: auto;
@@ -38,10 +37,12 @@ img {
     height: 100%;
     position: fixed;
     z-index: 1;
-    top: 0;
+    top: 10%;
     overflow-x: hidden;
     color: transparent;
   }
+
+
 
 .left {
     left: 0;
@@ -51,4 +52,42 @@ img {
 .right {
     right: 0;
     width: 60%;
+}
+
+
+.dropdown-button {
+    top: 0;
+    left: 0;
+    height: 10%;
+    width: 100%;
+    margin: 0;
+
+    position: fixed;
+    overflow-x: hidden;
+    color: transparent;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+
+    display: inline-block;
+    z-index: 2;
+    
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #c0c0c0;
+    min-width: 100%;
+    z-index: 3;
+
+    padding: 8px;
+    margin: 0;
+    position: absolute;
+}
+
+
+
+.show {
+    display: block;
+    z-index: 2;
 }
