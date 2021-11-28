@@ -135,7 +135,7 @@ td.escape-box {
     width: auto;
     display: block;
     border-right: 1px solid var(--border-color);
-
+    padding-top: 1rem;
 
     position: fixed;
 }
