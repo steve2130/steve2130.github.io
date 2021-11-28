@@ -126,45 +126,50 @@ html.menu, body.menu {
 }
 
 div.outer-box {
-
-    margin: 1rem 0 1rem 1rem;
-    height: 100vh;
+    height: 100%;
     width: 100%;
-    position: absolute;
 
-    top: 0;
-    left: 0;
 }
 
-
 a.escape-box {
-    height: 100vh;
-    width: 3rem;
+    height: 90%;
+    width: 4rem;
+    border-right: 1px solid var(--border-color);
 
-    position: relative;
-    border-right: 1px solid #c0c0c0;
+    position: absolute;
+    top: 1rem;
+    left: 0;
+    text-align: center;
 
-    margin-top: 0;
-    margin-left: -8px;
-
+    margin: 0;
+    padding: 0;
 }
 
 svg.left-arrow {
-    margin-top: 0;
+    margin-top: 2px;
     margin-left: calc(3rem/16);
+    display: inline-block;
+
 }
 
+
+td.book {
+    padding-top: 1rem;
+    padding-left: 5rem;
+}
 
 a.cover-link {
     display: inline-block;
     padding-bottom: 1rem;
+    vertical-align: top;
 }
 
 a.text-link {
     color: var(--text-color);
-    padding-bottom: 1rem;
     font-family: "GenRyuMin-EL";
     font-size: 16px;
+    margin-left: 16px;
+    
 }
 
 img.cover {
