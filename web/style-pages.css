@@ -15,6 +15,26 @@ html, body {
     overflow: hidden;
 }
 
+
+/*Scroll bar*/
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #444444;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #666666;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #575757;
+}
+
+
 div.image-box{
         margin-left: auto;
         margin-right: auto;
@@ -132,9 +152,13 @@ div.outer-box {
 
 }
 
-td.escape-box {
+
+a.escape-link {
+    width: 4rem;
     height: 95%;
-    width: auto;
+
+    text-align: center;
+
     display: block;
     border-right: 1px solid var(--border-color);
     border-right: 1px solid #c0c0c0;
@@ -143,52 +167,69 @@ td.escape-box {
     position: fixed;
 }
 
-a.escape-link {
-    display: block;
-    width: 4rem;
-    top: 1rem;
-    height: 100%;
-    text-align: center;
-}
-
 svg.left-arrow {
-    margin-top: 2px;
+    margin-top: 5px;
     margin-left: auto;
     margin-right: auto;
     display: inline-block;
+    width: 32px;
+    height: 32px;
 
 }
 
+table.book {
+    margin-left: 85px;
+    width: 100%;
+}
 
-td.book {
-    padding-top: 1rem;
-    padding-left: 85px;
+
+tr.book-row {
+    height: 230px;
     width: 100vw;
+}
+
+td.book-cover {
+    padding-top: 16px;
+    height: 230px;
+    width: calc((230px/3534)*2501);
+}
+
+img.cover {
+    height: 230px;
+    min-height: 230px;
+    width: auto;
+    border-radius: 3px;
+    display: block;
+}
+
+td.book-title {
+    display: inline-block;
+    padding-left: 1rem;
+    margin-top: -8px;
+
 }
 
 a.link {
     display: block;
-    padding-bottom: 1rem;
-    width: 100%;
     text-decoration: none;
-}
 
-img.cover {
-    height: 250px;
-    width: auto;
-    border-radius: 3px;
-    display: inline;
+    height: 230px;
+    width: 100%;
 }
 
 p.text {
     color: var(--text-color);
     color: #c0c0c0;
+    width: 45vw;
     font-family: "GenRyuMin-EL";
     font-size: 23px;
-    margin-left: 2rem;
-    display: inline;
+
     text-decoration: none;
-    vertical-align: top;
+
+    display: block;
+    word-break: break-word;
+
+    white-space: pre-wrap;
 
 }
 
