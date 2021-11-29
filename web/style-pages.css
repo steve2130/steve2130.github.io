@@ -35,6 +35,8 @@ html, body {
 }
 
 
+
+/*For pages (ie. 001.html, 002.html etc.)*/
 div.image-box{
         margin-left: auto;
         margin-right: auto;
@@ -143,6 +145,7 @@ html.menu, body.menu {
     overflow-y: auto;
     background-color: var(--bg-color);
     background-color: rgb(43, 43, 43);
+    scrollbar-width: thin; /*For Firefox*/
 }
 
 div.outer-box {
