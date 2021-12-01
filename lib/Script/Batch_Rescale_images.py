@@ -13,10 +13,10 @@ global vol, number, files_path, number_with_zero, original_format, total_images,
                 
 
 #CONVERT '\' to '/' before doing anything
-files_path = "C:/Users/Steve/Desktop/png/JOB KILLER/2"          
-storage_path = "C:/Users/Steve/Desktop/png/JOB KILLER/2/done"
+files_path = "C:/Users/Steve/Desktop/png/JOB KILLER/3"          
+storage_path = "C:/Users/Steve/Desktop/png/JOB KILLER/3/done"
 
-vol = 2                     #volume of the book
+vol = 3                     #volume of the book
 
 
 
