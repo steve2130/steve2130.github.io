@@ -4,18 +4,17 @@
 
 from airium import Airium
 
-global title, vol, number, nextpage, previous_page
+global title, vol, number, nextpage, previous_page, page, number_with_zero
 
 title = "JOB KILLER"    #Book title
 vol = 1                 #Volume
 number = 0              #Book pages, just ignore it
-
+page = 28               #number of book pages
 
 #Processing the numbers
-for number in range(0, 28):
+for number in range(0, page):
     number += 1
-    global number_with_zero
-    number_with_zero = str(number).zfill(3) #So that it looks like 001.html, and not 1.html
+    number_with_zero = str(number).zfill(3)                 #So that it looks like 001.html, and not 1.html
 
     nextpage = number + 1
     nextpage_with_zeros = str(nextpage).zfill(3)            #for link to next page
@@ -28,7 +27,6 @@ for number in range(0, 28):
 
 
 #HTML
-
     a = Airium()
 
     a('<!DOCTYPE html>')    #Formatting
