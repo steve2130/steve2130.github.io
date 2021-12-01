@@ -2,15 +2,17 @@
 #Created because I know nothing on backend
 #Date: 2021/11/30
 
+import os
 from airium import Airium
 
 global title, vol, number, nextpage, previous_page, page, number_with_zero
 
 title = "JOB KILLER"    #Book title
-vol = 3                 #Volume
-page = 39               #number of book pages
-#Processing the numbers
+vol = 1                 #Volume
+page = 12               #number of book pages
+designated_path = "C:/Users/Steve/Desktop/qqq/python/web/"
 
+#Processing the numbers
 number = 0              #Ignore it
 for number in range(0, page):
     number += 1
@@ -25,8 +27,10 @@ for number in range(0, page):
     if previous_page_with_zeros == "000":
         previous_page_with_zeros = "../../menu"             #auto adjust to direct to menu.html
 
+    if number == page:
+        nextpage_with_zeros = "../../menu"
 
-#HTML
+    #HTML
     a = Airium()
 
     a('<!DOCTYPE html>')    #Formatting
@@ -44,8 +48,16 @@ for number in range(0, page):
                 a.a(href=f'{nextpage_with_zeros}.html', klass="split right")
 
 
-# Creating HTML files
+
+
+
+    # Creating HTML files
     html_str = str(a)
-    with open('C:/Users/Steve/Desktop/qqq/python/web/{}.html'.format(number_with_zero), 'w') as f:
+
+    if not os.path.exists (f'{designated_path}/web'):   #Create folder if there isnt a one
+        os.makedirs(f'{designated_path}/web')
+
+
+    with open(f'{designated_path}/web/{number_with_zero}.html', 'w') as f:      #create HTMLs
         f.write(html_str)
 
