@@ -230,6 +230,7 @@ p.title {
     color: #dadada;
     width: 45vw;
     font-family: 'Noto Sans TC', "NotoSansJP-Light", sans-serif;
+    font-weight: 300;
     font-size: 23px;
 
     text-decoration: none;
@@ -248,6 +249,7 @@ p.author {
     color: var(--secondary-text-colortext-color);
     color: #808080;
     font-family: "Noto Sans JP", "NotoSansJP-Light", sans-serif;
+    font-weight: 200;
     
 }
 
