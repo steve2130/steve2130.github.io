@@ -8,9 +8,19 @@ from airium import Airium
 global title, vol, number, nextpage, previous_page, page, number_with_zero
 
 title = "JOB KILLER"    #Book title
-vol = 1                 #Volume
-page = 12               #number of book pages
-designated_path = "C:/Users/Steve/Desktop/qqq/python/web/"
+vol = 4                 #Volume
+page = 54               #number of book pages
+
+#Convert '\' to '/' before doing anything
+designated_path = "C:/Users/Steve/Documents/GitHub/steve2130.github.io/web/JOB KILLER/4"
+
+
+
+#---------------------------------------------------------------------------------------------------------------------------------
+#Create folder if there isnt one
+
+if not os.path.exists (f'{designated_path}/web'):   
+    os.makedirs(f'{designated_path}/web')
 
 #Processing the numbers
 number = 0              #Ignore it
@@ -48,15 +58,8 @@ for number in range(0, page):
                 a.a(href=f'{nextpage_with_zeros}.html', klass="split right")
 
 
-
-
-
     # Creating HTML files
     html_str = str(a)
-
-    if not os.path.exists (f'{designated_path}/web'):   #Create folder if there isnt a one
-        os.makedirs(f'{designated_path}/web')
-
 
     with open(f'{designated_path}/web/{number_with_zero}.html', 'w') as f:      #create HTMLs
         f.write(html_str)

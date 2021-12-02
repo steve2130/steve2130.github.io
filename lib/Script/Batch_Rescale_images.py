@@ -13,11 +13,10 @@ global vol, number, files_path, number_with_zero, original_format, total_images,
                 
 
 #CONVERT '\' to '/' before doing anything
-files_path = "C:/Users/Steve/Desktop/png/JOB KILLER/3"          
-storage_path = "C:/Users/Steve/Desktop/png/JOB KILLER/3/done"
+files_path = "C:/Users/Steve/Desktop/png/JOB KILLER/4"          
+storage_path = "C:/Users/Steve/Desktop/png/JOB KILLER/4/done"
 
-vol = 3                     #volume of the book
-
+vol = 4                     #volume of the book
 
 
 original_format = "jpg"
@@ -27,8 +26,8 @@ max_width = 1500
 
 #-----------------------------------------------------------------------------------
 
-
-if not os.path.exists(storage_path):            #Create folder for storage if it isnt exist
+#Create folder for storage if it isnt exist
+if not os.path.exists(storage_path):            
     os.makedirs(storage_path)
 
 
@@ -50,8 +49,8 @@ for number in range(0, total_images):              #For pages numbers (001, 002,
     number_with_zero = str(number).zfill(3)
 
     #Image resize part
-    img = Image.open(f'{files_path}/{vol_with_zero}-{number_with_zero}.{original_format}')
+    img = Image.open(f'{files_path}/{vol_with_zero}-{number_with_zero}.{original_format}')  #The format should be '01-001.jpg, 01-002.jpg, 01-003.jpg...'
     (w, h) = img.size
 
-    img.thumbnail((max_width, max_height))        #width, height      thumbnail() cab retail aspect ratio when resizing
+    img.thumbnail((max_width, max_height))        #width, height      thumbnail() cab retain aspect ratio when resizing
     img.save(f'{storage_path}/{vol_with_zero}-{number_with_zero}.{format_wanted}', quality = 86)
