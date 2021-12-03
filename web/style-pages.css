@@ -72,7 +72,7 @@ img {
     height: 100%;
     position: fixed;
     z-index: 1;
-    top: 10%;
+    top: 15%;
     overflow-x: hidden;
     color: transparent;
   }
@@ -88,6 +88,19 @@ img {
     right: 0;
     width: 60%;
 }
+
+.top {
+    position: absolute;
+    height: 15%;
+    width: 100%;
+    z-index: 1;
+    overflow-x: hidden;
+    color: transparent;
+    top: 0;
+    left: 0;
+}
+
+
 
 
 .dropdown-button {
