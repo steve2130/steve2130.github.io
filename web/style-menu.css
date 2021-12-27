@@ -285,7 +285,10 @@ input:checked + .slider:before {
     body {
         width: 100%;
     }
-
+    /*Scrollbar*/
+    ::-webkit-scrollbar {
+        width: 2px;
+    }
 
 
     /*Escape Bar*/
