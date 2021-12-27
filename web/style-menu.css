@@ -1,0 +1,400 @@
+:root {
+    --background-color: rgb(43, 43, 43);
+    --border-color: #cccccc;
+    --title-color: #dadada;
+    --author-color: #808080;
+}
+
+[data-theme="light"] {
+    --background-color: rgb(230, 230, 230);
+    --border-color: #8f8f8f;
+    --title-color: #505050;
+    --author-color: #9c9c9c;
+}
+
+
+
+
+
+
+
+
+
+
+/*Scroll bar*/
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #444444;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #666666;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #575757;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*Default stuff*/
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+html.menu, body.menu {
+    overflow-y: auto;
+    background-color: var(--background-color, rgb(43, 43, 43));
+    scrollbar-width: thin; /*For Firefox*/
+}
+
+div.outer-box {
+    height: 100%;
+    width: auto;
+    position: absolute;
+
+}
+
+/*Escape bar (the bar the linked to the previous page)*/
+a.escape-link {
+    width: 4rem;
+    height: 100%;
+    text-align: center;
+    display: block;
+    position: fixed;
+}
+
+div.escape-link-border {
+    display: block;
+    height: 95%;
+    border-right: 1px solid var(--border-color, #cccccc);
+}
+
+
+svg.left-arrow {
+    margin-top: 0%;
+    padding-top: 2px;
+    left: calc(4rem / 4);
+    top: calc(32px / 2);
+
+    display: block;
+    width: 32px;
+    height: 32px;
+    fill: var(--border-color, #cccccc);
+    position: absolute;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Books*/
+img.cover {
+    height: 230px;
+    width: auto;
+    border-radius: 4px;
+    display: block;
+    image-rendering: high-quality;  /*https://developer.mozilla.org/en-US/docs/Web/CSS/image-rendering*/
+}
+
+
+
+div.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: relative;
+
+    margin-left: 5rem;
+    margin-top: -4px;
+    margin-bottom: 1rem;
+}
+
+a.link {
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+    margin: 20px 0 0 0;
+    padding: 0px 0 0 0;
+    height: 230px;
+    flex-basis: 31rem;
+}
+
+div.author-info-box {
+    margin:  0 0 0 12px;
+    padding: 0 16px 0 0;
+    display: inline-block;
+    height: auto;
+}
+
+p.title {
+    color: var(--title-color, #dadada);
+    font-family: 'Noto Sans TC', "NotoSansJP-Light", sans-serif;
+    font-weight: 300;
+    font-size: 23px;
+    line-height: 1em;
+    width: auto;
+    display: block;
+    text-decoration: none;
+
+
+    margin: -2px 0 0 0;
+}
+
+
+p.author {
+    margin-top: 0px;
+    color: var(--author-color, #808080);
+    font-family: "Noto Sans JP", "NotoSansJP-Light", sans-serif;
+    font-weight: 200;
+    margin: 2px 0 0 0;
+    display: inline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Theme switch*/
+div.theme-switch-container {
+    position: sticky;
+    display: flex;
+    align-items: bottom;
+    z-index: 1;
+    float: right;
+    top: 85%;
+}
+
+
+label.theme-switch {
+    height: 50px;
+    width: 50px;
+}
+
+.theme-switch input {
+    display:none;
+}
+
+.slider:hover {
+    background-color: rgb(230, 230, 230);
+    left: 0px;
+    transition: .4s;
+}
+
+
+.slider {
+    background-color: rgb(165, 165, 165);
+    bottom: 0;
+    cursor: pointer;
+    left: 40px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+  }
+
+img.theme-switch-night-mode-icon {
+    display: block;
+    position: absolute;
+    height: 34px;
+    width: auto;
+    top: calc((50px - 34px) / 2);
+    left: calc((50px - 34px) / 2); 
+    padding-left: 1px;
+}
+
+
+
+
+
+/*Copy from somewhere, leave them here now.*/
+input:checked + .slider {
+    background-color: rgb(255, 255, 255);
+    background-image: url("../lib/images/cover/menu/sun-svgrepo-com.svg");
+    transition: .4s;
+
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+
+}
+
+.slider.round {
+    margin: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Responsive thing*/
+@media screen and (max-width: 600px) {
+    body {
+        width: 100%;
+    }
+
+
+
+    /*Escape Bar*/
+    a.escape-link {
+        width: 40px;
+    }
+
+    svg.left-arrow {
+        width: calc(40px / 2);
+        height: calc(40px / 2);
+        left: calc(40px / 4);
+        top: calc(32px / 2);
+    }
+
+
+
+
+    /*Books*/
+    div.flex-container {
+        margin-left: calc(40px + 1rem);
+        flex-direction: column;
+    }
+
+    a.link {
+        flex-basis: 200px;
+        height: 200px;
+        width: 108%;
+        min-width: 13rem;
+    }
+
+    img.cover {
+        height: 200px;
+    }
+
+    div.author-info-box {
+        padding-right: 4px;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Font*/
+@font-face {
+/*源流明體*/
+    font-family: "GenRyuMin-EL";
+    src: url("../lib/font/GenRyuMin-EL.ttc");
+}
+
+@font-face {
+/*NotoSans*/
+    font-family: "NotoSansJP-Light";
+    src: url("../lib/font/NotoSansJP-Light.otf");
+}
+    
+
+/* font-family: 'Noto Sans Display', sans-serif;
+
+font-family: 'Noto Sans JP', sans-serif;
+
+font-family: 'Noto Sans TC', sans-serif; */
+
+
+
+
+
+
+/*Table (unused)*/
+
+td.book-title {
+    display: inline-block;
+    margin-top: -8px;
+
+}
+
+table.book {
+    margin-left: 85px;
+    width: 100%;
+}
+
+
+tr.book-row {
+    height: 230px;
+    width: 100vw;
+}
+
+td.book-cover {
+    padding-top: 16px;
+    height: 230px;
+    width: calc((230px/3534)*2501);
+}
+
+
+
+
+
