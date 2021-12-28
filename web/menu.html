@@ -38,7 +38,7 @@
             <label class="theme-switch" for="checkbox">
                 <input type="checkbox" id="checkbox">
                 <div class="slider round">
-                    <img class="theme-switch-night-mode-icon" src="../lib/images/cover/menu/moon-svgrepo-com.svg" alt="Night">
+
                 </div>
             </label>
         </div>
@@ -127,7 +127,7 @@
                 <img class="cover" src="../lib/images/cover/Naganami.jpg" alt="Naganami">
                 
                 <div class="author-info-box">
-                    <p class="title">長波大人很好騙　總集篇①</p>
+                    <p class="title">長波大人很好騙<br>總集篇①</p>
                     <p class="author">仏さんじょ</p>
                 </div>
             </a>
@@ -136,7 +136,7 @@
                 <img class="cover" src="../lib/images/cover/Chinjufu.jpg" alt="Chinjufu">
                 
                 <div class="author-info-box">
-                    <p class="title">你的黑暗鎮守府　總集篇①</p>
+                    <p class="title">你的黑暗鎮守府<br/>總集篇①</p>
                     <p class="author">バシウス</p>
                 </div>
             </a>
@@ -172,5 +172,26 @@
 
 
     </div>
+
+
+
+
+
+    <script>
+        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+
+        function switchTheme(e) {
+            if (e.target.checked) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+            else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }    
+        }
+
+        toggleSwitch.addEventListener('change', switchTheme, false);
+    </script>
+
+
 </body>
 </html>
