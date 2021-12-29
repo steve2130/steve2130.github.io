@@ -221,8 +221,6 @@ label.theme-switch:hover {
     display:none;
 }
 
-
-
 .slider {
     position: absolute;
     bottom: 0;
@@ -248,21 +246,6 @@ label.theme-switch:hover {
     transition: .4s;
 }
 
-
-
-
-
-
-img.theme-switch-night-mode-icon { /*Unused*/
-    display: block;
-    position: absolute;
-    height: 34px;
-    width: auto;
-    top: calc((50px - 34px) / 2);
-    left: calc((50px - 34px) / 2); 
-    padding-left: 1px;
-}
-
 input:checked + .slider {
     background-color: rgb(118, 118, 118);
     transition: .4s;
@@ -277,8 +260,15 @@ input:checked + .slider:hover {
     background-color: rgb(53, 53, 53);
 }
 
-
-
+img.theme-switch-night-mode-icon { /*Unused*/
+    display: block;
+    position: absolute;
+    height: 34px;
+    width: auto;
+    top: calc((50px - 34px) / 2);
+    left: calc((50px - 34px) / 2); 
+    padding-left: 1px;
+}
 
 
 

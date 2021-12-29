@@ -5,9 +5,6 @@
     <meta charset="utf-8">
     <!--Stylesheet-->
     <link href="style-menu.css" rel="stylesheet" type="text/css"/>
-    <style>
-
-    </style>
     <!--icon-->
     <link rel="shortcut icon" href="../lib/images/cover/menu/delivery-truck-silhouette.png" type="image/x-icon"><!--Icon created by Dave Gandy-->
     <!--Google Font-->
@@ -160,40 +157,42 @@
                     <p class="author">lIII≡≡</p>
                 </div>
             </a>
-
-
-
+            
         </div>
-
-        
-
-
-
-
-
     </div>
 
 
-
-
-
+    <!--JavaScript-->
     <script>
         // https://dev.to/ananyaneogi/create-a-dark-light-mode-switch-with-css-variables-34l8
+        // Code copied from here ^^^
 
+        //  To change the theme of the website, and store user perference on the theme.
+        //  main.js does not work. Don't know why.
+        //  ^^^ Solution: https://dev.to/shi/comment/fjeb
         const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+        const currentTheme = localStorage.getItem('theme');
 
-        function switchTheme(e) {
-            if (e.target.checked) {
-                document.documentElement.setAttribute('data-theme', 'light');
+        if (currentTheme) {
+            document.documentElement.setAttribute('data-theme', currentTheme);              //  |   
+        
+            if (currentTheme === 'light') {                                                 //  |   Detect whether local storage exist for the theme perference
+                toggleSwitch.checked = true;                                                //  |   Change to light mode if the local storage say yes
             }
-            else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }    
+        }
+
+        function switchTheme(e) {                                                           //  |   The function is to detect clicks and change the theme
+            if (e.target.checked) {                                                         //  |
+                document.documentElement.setAttribute('data-theme', 'light');               //  |   If user clicked the theme switch button, the website will change to light theme
+                localStorage.setItem('theme', 'light');                                     //  |   Log user perference to local storage
+            }                                                                               //  |
+            else {        document.documentElement.setAttribute('data-theme', 'dark');      //  |
+                localStorage.setItem('theme', 'dark');                                      //  |   
+            }                                                                               //  |
         }
 
         toggleSwitch.addEventListener('change', switchTheme, false);
     </script>
-
 
 </body>
 </html>
