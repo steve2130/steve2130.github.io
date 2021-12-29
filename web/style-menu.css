@@ -3,7 +3,6 @@
     --border-color: #cccccc;
     --title-color: #dadada;
     --author-color: #808080;
-    transition: 0.4s;
 }
 
 [data-theme="light"] {
@@ -11,7 +10,6 @@
     --border-color: #7a7a7a;
     --title-color: #505050;
     --author-color: #9c9c9c;
-    transition: 0.4s;
 }
 
 
@@ -216,11 +214,6 @@ label.theme-switch {
     display:none;
 }
 
-.slider:hover {
-    background-color: rgb(230, 230, 230);
-    left: 0px;
-    transition: .4s;
-}
 
 
 .slider {
@@ -241,10 +234,11 @@ label.theme-switch {
     background-image: url("../lib/images/cover/menu/moon-svgrepo-com.svg");
 }
   
-.switch-mode-icon-dark {
-    content: "";
+.slider:hover {
+    background-color: rgb(230, 230, 230);
+    left: 0px;
+    transition: .4s;
 }
-
 
 
 
@@ -268,6 +262,7 @@ input:checked + .slider {
     background-repeat: no-repeat;
     background-position: calc((50px - 30px) / 2) center;
     background-image: url("../lib/images/cover/menu/sun-svgrepo-com.svg");
+    fill: white;
 }
 
 input:checked + .slider:hover {
