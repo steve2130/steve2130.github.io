@@ -1,13 +1,13 @@
 :root {
     --background-color: rgb(43, 43, 43);
-    --border-color: #cccccc;
+    --border-color: #cacaca;
     --title-color: #dadada;
     --author-color: #808080;
 }
 
 [data-theme="light"] {
-    --background-color: rgb(240, 240, 240);
-    --border-color: #7a7a7a;
+    --background-color: rgb(247, 247, 247);
+    --border-color: #696764;
     --title-color: #505050;
     --author-color: #9c9c9c;
 }
