@@ -331,6 +331,10 @@ img.theme-switch-night-mode-icon { /*Unused*/
         padding-right: 4px;
     }
 
+    p.title {
+        margin: -2px 19px 0 0;
+    }
+
 }
 
 
