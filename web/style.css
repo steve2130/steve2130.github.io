@@ -4,12 +4,6 @@ body {
     margin-top: 5%;
   }
   
-@media (min-width: 600px) {
-    body {
-      width: 50%;
-    }
-}
-
 
 p {
     color: white;
@@ -23,15 +17,28 @@ a.link {
     color: rgb(240, 242, 252);
     text-decoration: none;
     border-radius: 5px;
-    font-family: "Helvetica";
+    font-family: "Noto Sans", "Helvetica";
     margin-bottom: 2rem;
-    font-size: 1.35rem;
+    font-size: 20px;
   }
   
 td {
     padding-bottom: 2rem;
+    min-width: 12rem;
 }
   
+
+
+@media (min-width: 600px) {
+  body {
+    width: 50%;
+  }
+}
+
+
+
+
+
   
 @font-face {
   /*Johnston*/
