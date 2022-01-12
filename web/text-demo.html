@@ -57,10 +57,13 @@
             background-color: #000;
             color: #fff;
             transition: none;
-            animation-name: changing-font-weight, font-size-change;
+            animation-name: changing-font-weight;
             animation-duration: 1s;
-            animation-fill-mode: forwards;
+            animation-delay: .2s;
             animation-timing-function: linear;
+
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
         }
 
         .inner-content-dummy {
@@ -102,10 +105,6 @@
         100% {font-weight: 900;}
             }
 
-        @keyframes font-size-change {
-            0% {font-size: 38px;}
-            100% {font-size: 42px;}
-        }
     </style>
 </head>
 
