@@ -238,7 +238,7 @@ label.theme-switch:hover {
     background-size: 34px;
     background-repeat: no-repeat;
     background-position: calc((50px - 30px) / 2) center;
-    background-image: url("../lib/images/cover/menu/moon-svgrepo-com.svg");
+    background-image: url("../lib/images/assets/moon-svgrepo-com.svg");
 }
   
 .slider:hover {
@@ -253,7 +253,7 @@ input:checked + .slider {
     background-size: 34px;
     background-repeat: no-repeat;
     background-position: calc((50px - 30px) / 2) center;
-    background-image: url("../lib/images/cover/menu/sun-svgrepo-com.svg");
+    background-image: url("../lib/images/assets/sun-svgrepo-com.svg");
     fill: white;
 }
 
