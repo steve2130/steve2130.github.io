@@ -4,13 +4,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Fun</title>
+    
+    <!--icons-->
+    <!--From Adobe: https://experienceleague.adobe.com/docs/journey-optimizer/using/offer-decisioniong/get-started/key-steps.html%3Flang%3Den-->
+    <link rel="shortcut icon" href="../lib/images/assets/website.svg" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../lib/images/assets/website.svg">
 
     <!--Google Font-->
     <!--Noto Serif Traditional Chinese-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet"> 
+    <!--Cool hacks - Make Google fonts load faster: https://ahmadawais.com/google-fonts-load-faster/-->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300;400;500;600;700;900&display=swap" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" /> 
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300;400;500;600;700;900&display=swap"/></noscript>
+
+    <title>思源宋體</title>
+
 
     <!--Style-->
     <style>
@@ -27,7 +37,7 @@
         }
 
         .outer-box {
-            height: calc(60px * 14 + 1px * 14);
+            height: calc(60px * 14 + 1px * 14); /*Block height + border height*/
             width: calc(60px * 14 + 1px * 14);
             border-right: 1px solid #ccc;
             border-top: 1px solid #ccc;
