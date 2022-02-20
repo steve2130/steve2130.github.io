@@ -55,6 +55,7 @@ html, body {
     height: 100%;
     overflow: hidden;
     scroll-behavior: smooth;
+    transition: background 0.2s linear;
 }
 
 html.menu, body.menu {

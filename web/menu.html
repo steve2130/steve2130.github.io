@@ -187,7 +187,8 @@
                 document.documentElement.setAttribute('data-theme', 'light');               //  |   If user clicked the theme switch button, the website will change to light theme
                 localStorage.setItem('theme', 'light');                                     //  |   Log user perference to local storage
             }                                                                               //  |
-            else {        document.documentElement.setAttribute('data-theme', 'dark');      //  |
+            else {
+                document.documentElement.setAttribute('data-theme', 'dark');                   //  |
                 localStorage.setItem('theme', 'dark');                                      //  |   
             }                                                                               //  |
         }
