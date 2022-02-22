@@ -163,9 +163,9 @@ p.title {
     width: auto;
     display: block;
     text-decoration: none;
-
-
-    margin: -2px 0 0 0;
+    position: relative;
+    top: -4px;
+    margin: 0 0 0 0;
 }
 
 
