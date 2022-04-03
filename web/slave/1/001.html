@@ -38,9 +38,9 @@
 
 
       next_page_button.addEventListener("click", fun => ToNextImage(), false);
-      previous_page_button.addEventListener("click", fun => ToPreviousPage(), false);
+      previous_page_button.addEventListener("click", fun => ToPreviousImage(), false);
 
-      
+
       async function ToNextImage() {
           let returnValues = GetCurrentPageNumber();
           let leadingSourcePath = returnValues[0];
@@ -74,7 +74,7 @@
               });
       }
 
-    async function ToPreviousPage() {
+    async function ToPreviousImage() {
         let returnValues = GetCurrentPageNumber();
         let leadingSourcePath = returnValues[0];
         let currentPage = parseInt(returnValues[1]);
@@ -153,6 +153,39 @@
                 image.onerror = () => reject();
             }) 
       }
+
+
+      window.addEventListener("keydown", (event) => {
+          const key = event.key;
+
+          switch (event.key) {
+
+            case "ArrowRight":
+                ToNextImage();
+                break;
+
+            case "ArrowLeft":
+                ToPreviousImage();
+                break;
+
+            case "ArrowUp":
+                ToPreviousImage();
+                break;
+
+            case "ArrowDown":
+                ToNextImage();
+                break;
+            
+
+            case "PageUp":
+                ToPreviousImage();
+                break;
+
+            case "PageDown":
+                ToNextImage();
+                break;
+          }
+      });
 
 
       </script>
