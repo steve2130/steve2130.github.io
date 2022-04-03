@@ -37,21 +37,24 @@
 
 
 
-      next_page_button.addEventListener("click", fun => {
+      next_page_button.addEventListener("click", fun => ToNextImage(), false);
+      previous_page_button.addEventListener("click", fun => ToPreviousPage(), false);
+
+      
+      async function ToNextImage() {
           let returnValues = GetCurrentPageNumber();
           let leadingSourcePath = returnValues[0];
           let currentPage = parseInt(returnValues[1]);
 
-
           let imagePreload = preloadImage(leadingSourcePath, currentPage);
 
-          imagePreload
-              .then(res => {
-                  console.log(":)");
-              })
-              .catch(res => {
-                  console.log(res);
-              })
+              imagePreload
+                  .then(res => {
+                      console.log(":)");
+                  })
+                  .catch(res => {
+                      console.log(res);
+                  });
 
 
 
@@ -61,43 +64,37 @@
 
           let fileExistance = CheckImageExistance(`${leadingSourcePath}/${nextPage}.jpg`);
           
-
               fileExistance
                   .then(res => {
                       image.src = `${leadingSourcePath}/${nextPage}.jpg`;
-              })  
+                  })  
 
                   .catch(res => {
                       window.location.href = "../../menu.html";
               });
-      });
+      }
+
+    async function ToPreviousPage() {
+        let returnValues = GetCurrentPageNumber();
+        let leadingSourcePath = returnValues[0];
+        let currentPage = parseInt(returnValues[1]);
 
 
+        let previousPage = currentPage - 1;
+        previousPage = AddLeadingZeros(previousPage);
 
 
-      previous_page_button.addEventListener("click", fun => {
-            let returnValues = GetCurrentPageNumber();
-            let leadingSourcePath = returnValues[0];
-            let currentPage = parseInt(returnValues[1]);
+        let fileExistance = CheckImageExistance(`${leadingSourcePath}/${previousPage}.jpg`);
 
+            fileExistance
+                .then(res => {
+                    image.src = `${leadingSourcePath}/${previousPage}.jpg`;
+            })  
 
-            let previousPage = currentPage - 1;
-            previousPage = AddLeadingZeros(previousPage);
-
-
-            let fileExistance = CheckImageExistance(`${leadingSourcePath}/${previousPage}.jpg`);
-
-                fileExistance
-                    .then(res => {
-                        image.src = `${leadingSourcePath}/${previousPage}.jpg`;
-                })  
-
-                    .catch(res => {
-                        window.location.href = "../../menu.html";
-                });
-
-      });
-
+                .catch(res => {
+                    window.location.href = "../../menu.html";
+            });
+    }
 
 
 
@@ -136,29 +133,25 @@
             return new Promise ((resolve, reject) => {
                 /*Preload 1 image for now, change it if you want*/
 
-                let image_1 = new Image();
-                // let image_2 = new Image();
-                // let image_3 = new Image();
+                let image = new Array;
+                image[0] = new Image();
+                image[1] = new Image();
+                image[2] = new Image();
 
-                let FirstImage = AddLeadingZeros(currentPage + 1);
-                // let SecondImage = AddLeadingZeros(currentPage + 2);
-                // let ThirdImage = AddLeadingZeros(currentPage + 3);
+                let nextPage = currentPage;
 
+                for (i = 0; i < image.length; i++) {
+                  nextPage = AddLeadingZeros(currentPage + 1);
+                    
+                    image[i].src = `${sourcePath}/${nextPage}.jpg`;
 
-                image_1.src = `${sourcePath}/${FirstImage}.jpg`
-                // image_2.src = `${sourcePath}/${SecondImage}.jpg`
-                // image_3.src = `${sourcePath}/${ThirdImage}.jpg`
-
-                image_1.onload = () => resolve();
-                image_1.onerror = () => reject();
-                // image_2.onload = () => resolve();
-                // image_3.onload = () => resolve();
+                    currentPage = currentPage + 1;
+                }
 
 
-            })
-
-
-            
+                image.onload = () => resolve();
+                image.onerror = () => reject();
+            }) 
       }
 
 
