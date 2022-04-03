@@ -2,30 +2,24 @@
 <html>
 
   <head>
-    <meta charset="utf-8">
-    <link href="../../style-pages.css" rel="stylesheet" type="text/css"/>
-    <meta name="viewport" content="width = device-width, initial-scale = 1"/>
-    <title>1</title>
+      <meta charset="utf-8">
+      <link href="../../style-pages.css" rel="stylesheet" type="text/css"/>
+      <meta name="viewport" content="width = device-width, initial-scale = 1"/>
+      <title>1</title>
   </head>
 
-
   <body>
-    <div class="image-box">
+     <div class="image-box">
 
-      <!-- <div onclick="myFunction()" class="dropdown-button"></div>
-      <div id="myDropdown" class="dropdown-content">
-        <a style="z-index: 99;" href="../../../index.html">Back to Index</a>
-      </div> -->
+        <label for="button">
+            <button id="next_page_button" type="button" class="PageTurningButton split right"></button>
+        </label>
 
+        <label for="button">
+            <button id="previous_page_button" type="button" class="PageTurningButton split left "></button>
+        </label>
 
-
-
-      <a href="../../menu.html" class="top"></a>
-      <a href="../../menu.html" class="split left"></a>
-      <a href="002.html" class="split right"></a>
-      
-      <img alt="1" src="../../../lib/images/slave/1/01-001.jpg">
-
+        <img id="image" alt="image" src="images/001.jpg"/>
 
     </div>
 
@@ -36,13 +30,139 @@
 
 
 
-    <!-- <script>
-      // www.w3schools.com/howto/howto_js_dropdown.asp
-      function myFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
+    <script>
+      const next_page_button = document.getElementById("next_page_button");
+      const previous_page_button = document.getElementById("previous_page_button");
+      const image = document.getElementById("image");
+
+
+
+      next_page_button.addEventListener("click", fun => {
+          let returnValues = GetCurrentPageNumber();
+          let leadingSourcePath = returnValues[0];
+          let currentPage = parseInt(returnValues[1]);
+
+
+          let imagePreload = preloadImage(leadingSourcePath, currentPage);
+
+          imagePreload
+              .then(res => {
+                  console.log(":)");
+              })
+              .catch(res => {
+                  console.log(res);
+              })
+
+
+
+          let nextPage = currentPage + 1;
+          nextPage = AddLeadingZeros(nextPage);
+
+
+          let fileExistance = CheckImageExistance(`${leadingSourcePath}/${nextPage}.jpg`);
+          
+
+              fileExistance
+                  .then(res => {
+                      image.src = `${leadingSourcePath}/${nextPage}.jpg`;
+              })  
+
+                  .catch(res => {
+                      window.location.href = "../../menu.html";
+              });
+      });
+
+
+
+
+      previous_page_button.addEventListener("click", fun => {
+            let returnValues = GetCurrentPageNumber();
+            let leadingSourcePath = returnValues[0];
+            let currentPage = parseInt(returnValues[1]);
+
+
+            let previousPage = currentPage - 1;
+            previousPage = AddLeadingZeros(previousPage);
+
+
+            let fileExistance = CheckImageExistance(`${leadingSourcePath}/${previousPage}.jpg`);
+
+                fileExistance
+                    .then(res => {
+                        image.src = `${leadingSourcePath}/${previousPage}.jpg`;
+                })  
+
+                    .catch(res => {
+                        window.location.href = "../../menu.html";
+                });
+
+      });
+
+
+
+
+
+
+
+
+      function AddLeadingZeros(PageNumber) {
+          PageNumber = PageNumber.toString();
+          PageNumber = PageNumber.padStart(3, '0');
+          return PageNumber;
       }
 
-      </script> -->
+
+      function GetCurrentPageNumber() {
+          let currentSourcePath = image.getAttribute("src");
+          let currentSourcePathSplited = currentSourcePath.split("/");
+
+          return [currentSourcePathSplited[0], currentSourcePathSplited[1]];
+      }
+
+
+      async function CheckImageExistance(SourcePath) {
+
+          return new Promise((resolve, reject) => {
+              let img = new Image();
+              img.src = SourcePath;
+
+              img.onload = () => resolve(img);
+
+              img.onerror = () => reject('failed');
+          })
+      }
+
+      async function preloadImage(sourcePath, currentPage) {
+            return new Promise ((resolve, reject) => {
+                /*Preload 1 image for now, change it if you want*/
+
+                let image_1 = new Image();
+                // let image_2 = new Image();
+                // let image_3 = new Image();
+
+                let FirstImage = AddLeadingZeros(currentPage + 1);
+                // let SecondImage = AddLeadingZeros(currentPage + 2);
+                // let ThirdImage = AddLeadingZeros(currentPage + 3);
+
+
+                image_1.src = `${sourcePath}/${FirstImage}.jpg`
+                // image_2.src = `${sourcePath}/${SecondImage}.jpg`
+                // image_3.src = `${sourcePath}/${ThirdImage}.jpg`
+
+                image_1.onload = () => resolve();
+                image_1.onerror = () => reject();
+                // image_2.onload = () => resolve();
+                // image_3.onload = () => resolve();
+
+
+            })
+
+
+            
+      }
+
+
+      </script>
 
 
 
