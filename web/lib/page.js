@@ -6,10 +6,15 @@ const image = document.getElementById("image");
 
 
 
-next_page_button.addEventListener("click", fun => ToNextImage(), false);
-previous_page_button.addEventListener("click", fun => ToPreviousImage(), false);
+next_page_button.addEventListener("click", () => {
+    ToNextImage();
+    RecordReadHistory();
+}, false);
 
-
+previous_page_button.addEventListener("click", () => {
+    ToPreviousImage();
+    RecordReadHistory();
+}, false);
 
 
 
@@ -22,10 +27,10 @@ async function ToNextImage() {
 
         imagePreload
             .then(res => {
-                console.log(":)");
+                console.log("");
             })
             .catch(res => {
-                console.log(res);
+                console.log("");
             });
 
 
@@ -42,7 +47,7 @@ async function ToNextImage() {
             })  
 
             .catch(res => {
-                window.location.href = "../../menu.html";
+                window.location.href = "../../../menu.html";
         });
 }
 
@@ -66,7 +71,7 @@ async function ToPreviousImage() {
       })  
 
           .catch(res => {
-              window.location.href = "../../menu.html";
+              window.location.href = "../../../menu.html";
       });
 }
 
@@ -92,16 +97,16 @@ function GetCurrentPageNumber() {
 
 
 async function CheckImageExistance(SourcePath) {
+    return new Promise((resolve, reject) => {
+            let img = new Image();
+            img.src = SourcePath;
 
-  return new Promise((resolve, reject) => {
-      let img = new Image();
-      img.src = SourcePath;
+            img.onload = () => resolve(img);
 
-      img.onload = () => resolve(img);
-
-      img.onerror = () => reject('failed');
-  })
+            img.onerror = () => reject('failed');
+    })
 }
+
 
 async function preloadImage(sourcePath, currentPage) {
   return new Promise ((resolve, reject) => {
@@ -135,87 +140,117 @@ async function preloadImage(sourcePath, currentPage) {
 // For adding shortcut on turing pages
 
 window.addEventListener("keydown", (event) => {
-  const key = event.key;
+    const key = event.key;
 
-  switch (event.key) {
+    switch (event.key) {
 
-  case "ArrowRight":
-      ToNextImage();
-      break;
+    case "ArrowRight":
+        ToNextImage();
+        break;
 
-  case "ArrowLeft":
-      ToPreviousImage();
-      break;
-
-
-
-  case "ArrowUp":
-      ToPreviousImage();
-      break;
-
-  case "ArrowDown":
-      ToNextImage();
-      break;
-  
+    case "ArrowLeft":
+        ToPreviousImage();
+        break;
 
 
-  case "PageUp":
-      ToPreviousImage();
-      break;
 
-  case "PageDown":
-      ToNextImage();
-      break;
-  }
+    case "ArrowUp":
+        ToPreviousImage();
+        break;
+
+    case "ArrowDown":
+        ToNextImage();
+        break;
+    
+
+
+    case "PageUp":
+        ToPreviousImage();
+        break;
+
+    case "PageDown":
+        ToNextImage();
+        break;
+    }
 }, false);
 
 
 
-          // Copied from here: https://www.sitepoint.com/html5-javascript-mouse-wheel/
+                // Copied from here: https://www.sitepoint.com/html5-javascript-mouse-wheel/
 
-          if (window.addEventListener) {    // Check whether window have an event listener. 
+                if (window.addEventListener) {    // Check whether window have an event listener. 
 
-              // IE9, Chrome, Safari, Opera
-              window.addEventListener("mousewheel", MouseWheelHandler, false);
-              // Firefox
-              window.addEventListener("DOMMouseScroll", MouseWheelHandler, false);
-          }
+                    // IE9, Chrome, Safari, Opera
+                    window.addEventListener("mousewheel", MouseWheelHandler, false);
+                    // Firefox
+                    window.addEventListener("DOMMouseScroll", MouseWheelHandler, false);
+                }
 
-          // IE 6/7/8
-          else window.attachEvent("onmousewheel", MouseWheelHandler);
-      
+                // IE 6/7/8
+                else window.attachEvent("onmousewheel", MouseWheelHandler);
+            
 
 
-      function MouseWheelHandler(e) {
+            function MouseWheelHandler(e) {
 
-          // cross-browser wheel delta
-          var e = window.event || e;
-          var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail))); //???
-          
-          if (delta === -1) {
-              ToNextImage();
-          }
+                // cross-browser wheel delta
+                var e = window.event || e;
+                var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail))); //???
+                
+                if (delta === -1) {
+                    ToNextImage();
+                }
 
-          else {
-              ToPreviousImage();
-          }
+                else {
+                    ToPreviousImage();
+                }
 
-          return false;
-      }
+                return false;
+            }
+
+
+
+            // https://stackoverflow.com/questions/2264072/detect-a-finger-swipe-through-javascript-on-the-iphone-and-android
+            // By Damian Pavlica
+
+            let touchstartX = 0
+            let touchendX = 0
+
+            function handleGesture() {
+
+                if (touchendX < touchstartX) {  // swipe from right to left
+                    ToNextImage();
+                }
+
+                if (touchendX > touchstartX) {  // swipe from left to right
+                    
+                    ToPreviousImage();
+                }
+            }
+            
+            document.addEventListener('touchstart', e => {
+                touchstartX = e.changedTouches[0].screenX
+            })
+            
+            document.addEventListener('touchend', e => {
+                 touchendX = e.changedTouches[0].screenX
+                 handleGesture();
+            })
+
+
+
 
 
 
 // Record user reading history
 // Not working (Recording part)
 
-window.addEventListener("beforeunload", RecordReadHistory(), false);
-window.addEventListener("unload", RecordReadHistory(), false);
-
 function RecordReadHistory() {
-
-      let returnValues = GetCurrentPageNumber();
-      let currentPage = returnValues[1];
-      localStorage.setItem('currentPage', currentPage);   
+    setTimeout( () => {     // Update will be delayed if setTimeout() is not used.
+        let returnValues = GetCurrentPageNumber();
+        let currentPage = returnValues[1];
+        localStorage.setItem('currentPage', currentPage);
+    }, 100);
 
 }
 
@@ -225,14 +260,14 @@ function RecordReadHistory() {
 window.addEventListener("load", RetrieveReadHistory(), false);
 
 function RetrieveReadHistory() {
-  let returnValues = GetCurrentPageNumber();
-  let leadingSourcePath = returnValues[0];
-  let currentReadingPage = localStorage.getItem('currentPage');
+    let returnValues = GetCurrentPageNumber();
+    let leadingSourcePath = returnValues[0];
+    let currentReadingPage = localStorage.getItem('currentPage');
 
-  if (currentReadingPage) {
-      image.src = `${leadingSourcePath}/${currentReadingPage}`;
-  }
-  else {
-      image.src = `${leadingSourcePath}/001.jpg`;
-  }
+    if (currentReadingPage) {
+        image.src = `${leadingSourcePath}/${currentReadingPage}`;
+    }
+    else {
+        image.src = `${leadingSourcePath}/001.jpg`;
+    }
 }
