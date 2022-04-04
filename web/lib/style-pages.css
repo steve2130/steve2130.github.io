@@ -100,7 +100,20 @@ img {
 }
 
 
+.MenuButton {
+    position: absolute;
+    top: 30vh;
+    left: 35vw;
 
+    height: 40vh;
+    width: 30vw;
+
+    background-color: transparent;
+    z-index: 4;
+    border: none;
+
+    opacity: 0;
+}
 
 
 /*

@@ -2,9 +2,16 @@
 
 const next_page_button = document.getElementById("next_page_button");
 const previous_page_button = document.getElementById("previous_page_button");
+const menu_button = document.getElementById("menu_button");
 const image = document.getElementById("image");
 
 
+
+
+window.addEventListener("load", () => {
+    TestImageFormatSupport();
+    RetrieveReadHistory();
+}, false);
 
 next_page_button.addEventListener("click", () => {
     ToNextImage();
@@ -15,6 +22,13 @@ previous_page_button.addEventListener("click", () => {
     ToPreviousImage();
     RecordReadHistory();
 }, false);
+
+menu_button.addEventListener("click", () => {
+
+}, false);
+
+
+
 
 
 
@@ -255,10 +269,6 @@ function RecordReadHistory() {
 }
 
 
-
-
-window.addEventListener("load", RetrieveReadHistory(), false);
-
 function RetrieveReadHistory() {
     let returnValues = GetCurrentPageNumber();
     let leadingSourcePath = returnValues[0];
@@ -269,5 +279,57 @@ function RetrieveReadHistory() {
     }
     else {
         image.src = `${leadingSourcePath}/001.jpg`;
+    }
+}
+
+
+
+
+
+
+
+function TestImageFormatSupport() {
+    let webp = new Image();
+    let avif = new Image();
+
+    webp.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+    avif.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A=';
+
+    
+    webp.onload = () => {
+        let webpSupport = true;
+        return webpSupport;
+    }
+
+    webp.onerror = () => {
+        let webpSupport = false;
+        return webpSupport;
+    }
+
+
+    avif.onload = () => {
+        let avifSupport = true;
+        return avifSupport;
+    }
+
+    avif.onerror = () => {
+        let avifSupport = false;
+        return avifSupport;
+    }
+}
+
+
+function ServeDifferentFormatOfImage() {
+
+    if (avifSupport == true) {
+        console.log("avif supported!");
+    }
+
+    else if (webpSupport == true) {
+        console.log("webp supported!");
+    }
+
+    else {
+        console.log("avif and webp not supported!");
     }
 }
