@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 :root {
     --bg-color: rgb(43, 43, 43);
     --text-color: #dadada;
@@ -42,7 +46,7 @@ p {
 
 
 /*For pages (ie. 001.html, 002.html etc.)*/
-div.image-box{
+div.image-box {
         margin-left: auto;
         margin-right: auto;
         text-align: center;
@@ -64,6 +68,8 @@ img {
     max-width: 100%;
 
     padding: 0;
+
+
 
     image-rendering: high-quality;  /*https://developer.mozilla.org/en-US/docs/Web/CSS/image-rendering*/
 }
@@ -105,29 +111,73 @@ img {
     top: 30vh;
     left: 35vw;
 
-    height: 40vh;
+    height: 44vh;
     width: 30vw;
 
     background-color: transparent;
-    z-index: 4;
+    z-index: 5;
     border: none;
 
     opacity: 0;
 }
 
 
-/*
-Logic:
 
-if (user clicked the button) {
-    show the menu
-    opened = 1
+/*Layout (How the buttons positioned)*/
+
+
+.LayoutExampleWrapper {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    background-color: transparent;
 }
 
-if (opened == 1 && user clicked the button) {
-    close the menu
-    opened = 0;
-} 
+.LayoutExampleWrapper_Animation {
 
-*/
+    animation-name: LayoutFadeOut;
+    animation-duration: 0.3s;
+    animation-iteration-count: 1;
+}
+
+@keyframes LayoutFadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+.LayoutButtons {
+    box-sizing: content-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    height: 44vh;
+    width: 30vw;
+
+    /*https://stackoverflow.com/questions/60290466/how-make-cutting-in-div-from-rectangle*/
+    border-width: 28vh 35vw;
+    border-style: solid;
+    border-color: rgba(116, 255, 213, 0.6);
+
+    background-color: transparent;
+    z-index: 8;
+}
+
+
+
+.LayoutCenterButton {
+    position: absolute;
+    top: calc(28vh - 1px);
+    left: calc(35vw - 1px);
+
+    height: calc(44vh + 2px);
+    width: calc(30vw + 2px);
+
+    background-color: rgba(116, 255, 213, 0.6);
+    z-index: 11;
+    border: 5px solid white;
+}
 

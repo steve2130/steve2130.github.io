@@ -11,6 +11,7 @@ const image = document.getElementById("image");
 window.addEventListener("load", () => {
     TestImageFormatSupport();
     RetrieveReadHistory();
+    LayoutToggle();
 }, false);
 
 next_page_button.addEventListener("click", () => {
@@ -24,7 +25,7 @@ previous_page_button.addEventListener("click", () => {
 }, false);
 
 menu_button.addEventListener("click", () => {
-
+    console.log("center button clicked");
 }, false);
 
 
@@ -151,45 +152,46 @@ async function preloadImage(sourcePath, currentPage) {
 
 
 
-// For adding shortcut on turing pages
+                // For adding shortcut on turing pages
+                // Press keys to turn page
+                window.addEventListener("keydown", (event) => {
+                    const key = event.key;
 
-window.addEventListener("keydown", (event) => {
-    const key = event.key;
+                    switch (event.key) {
 
-    switch (event.key) {
+                    case "ArrowRight":
+                        ToNextImage();
+                        break;
 
-    case "ArrowRight":
-        ToNextImage();
-        break;
-
-    case "ArrowLeft":
-        ToPreviousImage();
-        break;
-
-
-
-    case "ArrowUp":
-        ToPreviousImage();
-        break;
-
-    case "ArrowDown":
-        ToNextImage();
-        break;
-    
-
-
-    case "PageUp":
-        ToPreviousImage();
-        break;
-
-    case "PageDown":
-        ToNextImage();
-        break;
-    }
-}, false);
+                    case "ArrowLeft":
+                        ToPreviousImage();
+                        break;
 
 
 
+                    case "ArrowUp":
+                        ToPreviousImage();
+                        break;
+
+                    case "ArrowDown":
+                        ToNextImage();
+                        break;
+                    
+
+
+                    case "PageUp":
+                        ToPreviousImage();
+                        break;
+
+                    case "PageDown":
+                        ToNextImage();
+                        break;
+                    }
+                }, false);
+
+
+
+                // Scroll to turn page
                 // Copied from here: https://www.sitepoint.com/html5-javascript-mouse-wheel/
 
                 if (window.addEventListener) {    // Check whether window have an event listener. 
@@ -205,59 +207,83 @@ window.addEventListener("keydown", (event) => {
             
 
 
-            function MouseWheelHandler(e) {
+                function MouseWheelHandler(e) {
 
-                // cross-browser wheel delta
-                var e = window.event || e;
-                var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail))); //???
-                
-                if (delta === -1) {
-                    ToNextImage();
-                }
-
-                else {
-                    ToPreviousImage();
-                }
-
-                return false;
-            }
-
-
-
-            // https://stackoverflow.com/questions/2264072/detect-a-finger-swipe-through-javascript-on-the-iphone-and-android
-            // By Damian Pavlica
-
-            let touchstartX = 0
-            let touchendX = 0
-
-            function handleGesture() {
-
-                if (touchendX < touchstartX) {  // swipe from right to left
-                    ToNextImage();
-                }
-
-                if (touchendX > touchstartX) {  // swipe from left to right
+                    // cross-browser wheel delta
+                    var e = window.event || e;
+                    var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail))); //???
                     
-                    ToPreviousImage();
+                    if (delta === -1) {
+                        ToNextImage();
+                    }
+
+                    else {
+                        ToPreviousImage();
+                    }
+
+                    return false;
                 }
-            }
-            
-            document.addEventListener('touchstart', e => {
-                touchstartX = e.changedTouches[0].screenX
-            })
-            
-            document.addEventListener('touchend', e => {
-                 touchendX = e.changedTouches[0].screenX
-                 handleGesture();
-            })
 
 
+                // Smartphone swipe to turn page
+                // https://stackoverflow.com/questions/2264072/detect-a-finger-swipe-through-javascript-on-the-iphone-and-android
+                // By Damian Pavlica
+
+                let touchstartX = 0
+                let touchendX = 0
+
+                function handleGesture() {
+
+                    if (touchendX < touchstartX) {  // swipe from right to left
+                        ToNextImage();
+                    }
+
+                    if (touchendX > touchstartX) {  // swipe from left to right
+                        
+                        ToPreviousImage();
+                    }
+                }
+                
+                document.addEventListener('touchstart', e => {
+                    touchstartX = e.changedTouches[0].screenX
+                });
+                
+                document.addEventListener('touchend', e => {
+                    touchendX = e.changedTouches[0].screenX
+                    handleGesture();
+                });
+
+
+
+                // Mouse drags to turn page
+                //https://stackoverflow.com/questions/6042202/how-to-distinguish-mouse-click-and-drag
+                // By andreyrd
+
+                let startX = 0;
+                let startY = 0;
+
+                document.addEventListener("mousedown", e => {
+                    startX = e.pageX;
+                    startY = e.pageY;
+                });
+
+                document.addEventListener("mouseup", e => {
+                    let diffX = Math.round(e.pageX - startX);   // calc how many pixel were dragged
+                    let diffY = Math.round(e.pageY - startY);
+
+                    if (diffX > 6) {            // How many pixel dragged to activate this function
+                        ToPreviousImage();
+                    }
+
+                    else if (diffX < -6) {
+                        ToNextImage();
+                    }
+                })
 
 
 
 
 // Record user reading history
-// Not working (Recording part)
 
 function RecordReadHistory() {
     setTimeout( () => {     // Update will be delayed if setTimeout() is not used.
@@ -316,6 +342,11 @@ function TestImageFormatSupport() {
         let avifSupport = false;
         return avifSupport;
     }
+
+    setTimeout(fun => {
+        webp = null;
+        avif = null;
+    }, 2000);   // to free the 1KB memory, be responsible
 }
 
 
@@ -331,5 +362,39 @@ function ServeDifferentFormatOfImage() {
 
     else {
         console.log("avif and webp not supported!");
+    }
+}
+
+
+
+
+
+
+
+const layout_example_wrapper = document.getElementById("layout_example_wrapper");
+
+layout_example_wrapper.addEventListener("click", fun => {
+    layout_example_wrapper.classList.add("LayoutExampleWrapper_Animation");
+    localStorage.setItem('layoutDisplayed', true);
+
+    setTimeout( () => {
+        layout_example_wrapper.style.display = "none";
+        layout_example_wrapper.classList.remove("LayoutExampleWrapper_Animation");
+    }, 300);
+})
+
+
+// Display the layout
+
+function LayoutToggle() {
+    let layoutDisplayed = localStorage.getItem('layoutDisplayed');
+    console.log(layoutDisplayed)
+
+    if (layoutDisplayed === false || !layoutDisplayed) {
+        layout_example_wrapper.style.display = "block";
+    }
+
+    else {
+        layout_example_wrapper.style.display = "none";
     }
 }
