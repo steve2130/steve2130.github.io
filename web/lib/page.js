@@ -42,10 +42,10 @@ async function ToNextImage() {
 
         imagePreload
             .then(res => {
-                console.log("");
+                console.log("Image Preloaded!");
             })
             .catch(res => {
-                console.log("");
+                console.log("Something is wrong with preloading image.");
             });
 
 
@@ -58,10 +58,12 @@ async function ToNextImage() {
     
         fileExistance
             .then(res => {
+                console.log("Next image existed!");
                 image.src = `${leadingSourcePath}/${nextPage}.jpg`;
             })  
 
             .catch(res => {
+                console.log("Next image did not existed!");
                 window.location.href = "../../../menu.html";
         });
 }
@@ -125,7 +127,7 @@ async function CheckImageExistance(SourcePath) {
 
 async function preloadImage(sourcePath, currentPage) {
   return new Promise ((resolve, reject) => {
-      /*Preload 1 image for now, change it if you want*/
+      /*Preload 3 image for now, change it if you want*/
 
       let image = new Array;
       image[0] = new Image();
@@ -380,7 +382,7 @@ layout_example_wrapper.addEventListener("click", fun => {
     setTimeout( () => {
         layout_example_wrapper.style.display = "none";
         layout_example_wrapper.classList.remove("LayoutExampleWrapper_Animation");
-    }, 300);
+    }, 290);
 })
 
 
@@ -388,7 +390,6 @@ layout_example_wrapper.addEventListener("click", fun => {
 
 function LayoutToggle() {
     let layoutDisplayed = localStorage.getItem('layoutDisplayed');
-    console.log(layoutDisplayed)
 
     if (layoutDisplayed === false || !layoutDisplayed) {
         layout_example_wrapper.style.display = "block";
@@ -398,3 +399,12 @@ function LayoutToggle() {
         layout_example_wrapper.style.display = "none";
     }
 }
+
+
+
+// Check number of images in a volume
+// - Backend code
+//      > file IO -> easier to code, require DB?
+
+// = Frontend code
+//      > Algo -> I will make O(N^2) code, recursive code needed 
