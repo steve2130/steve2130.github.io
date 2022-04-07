@@ -38,17 +38,18 @@ async function ToNextImage() {
     let leadingSourcePath = returnValues[0];
     let currentPage = parseInt(returnValues[1]);
 
+console.time();
     let imagePreload = preloadImage(leadingSourcePath, currentPage);
 
         imagePreload
-            .then(res => {
+            .then( () => {
                 console.log("Image Preloaded!");
             })
-            .catch(res => {
+            .catch( () => {
                 console.log("Something is wrong with preloading image.");
             });
 
-
+        
 
     let nextPage = currentPage + 1;
     nextPage = AddLeadingZeros(nextPage);
@@ -66,6 +67,8 @@ async function ToNextImage() {
                 console.log("Next image did not existed!");
                 window.location.href = "../../../menu.html";
         });
+
+console.timeEnd();    
 }
 
 
@@ -129,25 +132,30 @@ async function preloadImage(sourcePath, currentPage) {
   return new Promise ((resolve, reject) => {
       /*Preload 3 image for now, change it if you want*/
 
-      let image = new Array;
-      image[0] = new Image();
-      image[1] = new Image();
-      image[2] = new Image();
+    let image = new Array;
+    image[0] = new Image();
+    image[1] = new Image();
+    image[2] = new Image();
 
-      let nextPage = currentPage;
+    let nextPage = currentPage;
 
-      for (i = 0; i < image.length; i++) {
-          nextPage = AddLeadingZeros(currentPage + 1);
-          
-          image[i].src = `${sourcePath}/${nextPage}.jpg`;
+    for (i = 0; i < image.length; i++) {
+        nextPage = AddLeadingZeros(currentPage + 1);
+        
+        image[i].src = `${sourcePath}/${nextPage}.jpg`;
 
-          currentPage = currentPage + 1;
-      }
+        currentPage = currentPage + 1;
+    }
 
 
-      image.onload = () => resolve();
-      image.onerror = () => reject();
-  }) 
+    image.onload = () => resolve( fun => {
+        console.log("Image Preloaded!");
+      });
+
+    image.onerror = () => reject( fun =>  {
+        console.log("Something is wrong with preloading image.");
+      });
+    }) 
 }
 
 
