@@ -160,13 +160,41 @@ img {
     /*https://stackoverflow.com/questions/60290466/how-make-cutting-in-div-from-rectangle*/
     border-width: 28vh 35vw;
     border-style: solid;
-    border-color: rgba(116, 255, 213, 0.6);
+    border-color: rgba(126, 176, 155, 0.6);
 
     background-color: transparent;
     z-index: 8;
 }
 
 
+.layout_buttons_arrows {
+    width: 22px;
+    height: auto;
+
+    position: fixed;
+    top: calc(50vh - 17.6px);
+
+    fill: rgb(236, 236, 236);
+
+    background-clip: text;
+    z-index: 9;
+}
+
+.layout_buttons_arrows:hover {
+    fill: rgb(236, 225, 126);
+    transition: 0.6s ease-out;
+
+
+}
+
+.layout_buttons_left_arrow {
+    left: 20px;
+}
+
+
+.layout_buttons_right_arrow {
+    right: 20px;
+}
 
 .LayoutCenterButton {
     position: absolute;
@@ -176,7 +204,7 @@ img {
     height: calc(44vh + 2px);
     width: calc(30vw + 2px);
 
-    background-color: rgba(116, 255, 213, 0.6);
+    background-color: rgba(81, 158, 138, 0.6);
     z-index: 11;
     border: 5px solid white;
 }

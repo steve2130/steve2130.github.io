@@ -39,7 +39,7 @@ async function ToNextImage() {
     let currentPage = parseInt(returnValues[1]);
 
 console.time();
-    let imagePreload = preloadImage(leadingSourcePath, currentPage);
+    let imagePreload = preloadImage(leadingSourcePath, currentPage, 3, true);
 
         imagePreload
             .then( () => {
@@ -74,25 +74,35 @@ console.timeEnd();
 
 
 async function ToPreviousImage() {
-  let returnValues = GetCurrentPageNumber();
-  let leadingSourcePath = returnValues[0];
-  let currentPage = parseInt(returnValues[1]);
+    let returnValues = GetCurrentPageNumber();
+    let leadingSourcePath = returnValues[0];
+    let currentPage = parseInt(returnValues[1]);
+
+    let imagePreload = preloadImage(leadingSourcePath, currentPage, 1, false);
+
+    imagePreload
+        .then( () => {
+            console.log("Image Preloaded!");
+        })
+        .catch( () => {
+            console.log("Something is wrong with preloading image.");
+        });
 
 
-  let previousPage = currentPage - 1;
-  previousPage = AddLeadingZeros(previousPage);
+    let previousPage = currentPage - 1;
+    previousPage = AddLeadingZeros(previousPage);
 
 
-  let fileExistance = CheckImageExistance(`${leadingSourcePath}/${previousPage}.jpg`);
+    let fileExistance = CheckImageExistance(`${leadingSourcePath}/${previousPage}.jpg`);
 
-      fileExistance
-          .then(res => {
-              image.src = `${leadingSourcePath}/${previousPage}.jpg`;
-      })  
+        fileExistance
+            .then(res => {
+                image.src = `${leadingSourcePath}/${previousPage}.jpg`;
+        })  
 
-          .catch(res => {
-              window.location.href = "../../../menu.html";
-      });
+            .catch(res => {
+                window.location.href = "../../../menu.html";
+        });
 }
 
 
@@ -128,23 +138,35 @@ async function CheckImageExistance(SourcePath) {
 }
 
 
-async function preloadImage(sourcePath, currentPage) {
+async function preloadImage(sourcePath, currentPage, NumberOfImageToBeLoaded, operator) {
   return new Promise ((resolve, reject) => {
       /*Preload 3 image for now, change it if you want*/
 
     let image = new Array;
-    image[0] = new Image();
-    image[1] = new Image();
-    image[2] = new Image();
-
+    for (j = 0; j < NumberOfImageToBeLoaded; j++) {
+        image[j] = new Image();
+    }
+    
+    
     let nextPage = currentPage;
+    for (i = 0; i < NumberOfImageToBeLoaded; i++) {
 
-    for (i = 0; i < image.length; i++) {
-        nextPage = AddLeadingZeros(currentPage + 1);
+        if (operator === true) {    // Next page (+)
+            currentPage = currentPage + 1;
+        }
+
+        else if (operator === false) {    // Previous page (-)
+            currentPage = currentPage - 1;
+        }
+
+        else {
+            console.log("Operator ERROR!");
+        }
+
+
+        nextPage = AddLeadingZeros(currentPage);
         
         image[i].src = `${sourcePath}/${nextPage}.jpg`;
-
-        currentPage = currentPage + 1;
     }
 
 
@@ -331,26 +353,14 @@ function TestImageFormatSupport() {
     webp.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
     avif.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A=';
 
-    
-    webp.onload = () => {
-        let webpSupport = true;
-        return webpSupport;
-    }
-
     webp.onerror = () => {
-        let webpSupport = false;
-        return webpSupport;
-    }
-
-
-    avif.onload = () => {
-        let avifSupport = true;
-        return avifSupport;
+        let webpSupport = 44;
+        ServeDifferentFormatOfImage(webpSupport);
     }
 
     avif.onerror = () => {
-        let avifSupport = false;
-        return avifSupport;
+        let avifSupport = 77;
+        ServeDifferentFormatOfImage(avifSupport);
     }
 
     setTimeout(fun => {
@@ -360,19 +370,20 @@ function TestImageFormatSupport() {
 }
 
 
-function ServeDifferentFormatOfImage() {
+function ServeDifferentFormatOfImage(SupportedFormat) {
 
-    if (avifSupport == true) {
-        console.log("avif supported!");
+    if (SupportedFormat === 77) {
+        console.log("AVIF NOT supported!");
     }
 
-    else if (webpSupport == true) {
-        console.log("webp supported!");
+    else if (SupportedFormat === 44) {
+        console.log("WEBP NOT supported!");
     }
 
     else {
-        console.log("avif and webp not supported!");
+        console.log("This browser does not support AVIF and WEBP!");
     }
+
 }
 
 

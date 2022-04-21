@@ -50,7 +50,7 @@
         height: 100%;
         overflow: hidden;
         scroll-behavior: smooth;
-        transition: background 0.2s linear;
+        transition: background-color 0.2s linear;
     }
 
     html.menu, body.menu {
@@ -59,12 +59,6 @@
         scrollbar-width: thin; /*For Firefox*/
     }
 
-    div.outer-box {
-        height: 100%;
-        width: auto;
-        position: absolute;
-
-    }
 
 
     /*#endregion*/
@@ -75,33 +69,17 @@
 /*Escape bar (the bar the linked to the previous page)*/
 /*#region*/
 
-    a.escape-link {
-        width: 4rem;
+    div.navbar_wrapper {
+        width: 64px;
         height: 100%;
         text-align: center;
         display: block;
         position: fixed;
-    }
 
-    div.escape-link-border {
-        display: block;
-        height: 95%;
-        border-right: 1px solid var(--border-color, #cccccc);
     }
 
 
-    svg.left-arrow {
-        margin-top: 0%;
-        padding-top: 2px;
-        left: calc(4rem / 4);
-        top: calc(32px / 2);
 
-        display: block;
-        width: 32px;
-        height: 32px;
-        fill: var(--border-color, #cccccc);
-        position: absolute;
-    }
 
 
 /*#endregion*/
@@ -164,12 +142,11 @@
 
 
     p.author {
-        margin-top: 0px;
         color: var(--author-color, #808080);
         font-family: "Noto Sans JP", "NotoSansJP-Light", sans-serif;
         font-weight: 200;
-        margin: 2px 0 0 0;
-        display: inline;
+        margin: 0px 0 0 0;
+        display: inline-block;
     }
 
 
