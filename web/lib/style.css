@@ -7,7 +7,7 @@ body {
 
 p {
     color: white;
-    font-family: "Helvetica";
+    font-family: "Poppins", sans-serif;
     font-size: 1.35rem;
   }
   
@@ -17,7 +17,7 @@ a.link {
     color: rgb(240, 242, 252);
     text-decoration: none;
     border-radius: 5px;
-    font-family: "Noto Sans", "Helvetica";
+    font-family: "Noto Sans", sans-serif;
     margin-bottom: 2rem;
     font-size: 20px;
     width: 10rem;
@@ -44,19 +44,3 @@ td {
   }
 }
 
-
-
-
-
-  
-@font-face {
-  /*Johnston*/
-     font-family: "Johnston";
-     src: url("../lib/font/P22 Johnston Underground Regular.ttf");
-  }
-  
-@font-face {
-  /*Helvetica*/
-     font-family: "Helvetica";
-     src: url("../lib/font/Helvetica.ttf");
-  }
