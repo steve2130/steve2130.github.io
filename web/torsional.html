@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate torsional stiffness of a FSAE / Formula Student car. ">
+</head>
+
+    <!--icons-->
+    <!--From Adobe: https://experienceleague.adobe.com/docs/journey-optimizer/using/offer-decisioniong/get-started/key-steps.html%3Flang%3Den-->
+    <link rel="shortcut icon" href="../lib/images/website.svg" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../lib/images/website.svg">
+
+    <title>FSAE Torsional Stiffness Calculator</title>
+
+
+    <!--Style-->
+    <style>
+        * {
+            padding: 0;
+            margin: 0%;
+        }
+
+        body {
+            background: rgb(30, 31, 34);
+            padding: 16px 0 0 16px;
+            max-height: 1080px;
+
+        }
+
+        .torsional {
+            position: absolute;
+            top: 25vh;
+            left: 25vw;
+
+            height: auto;
+            width: 50vw;
+            border: 3px solid rgb(119, 119, 119);
+            border-radius: 10px;
+            display: block;
+        }
+
+        .input {
+            height: 25px;
+            border-radius: 5%;
+            overflow: hidden;
+        }
+
+        .delta_1_input {
+            position: relative;
+            width: 10vw;
+
+            top: 30vh;
+
+            
+
+        }
+
+        .delta_2_input {
+
+        }
+
+        .F_input {
+
+        }
+
+        .L_input{
+
+        }
+
+        .submitButton {
+            height: 20px;
+            width: 20px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+
+<body>
+        <img class="torsional" alt="Diagram of torsional stiffness graph" src="../lib/images/torsional.png"/>
+        
+        <input class="delta_1_input input" type="text" placeholder="ΔY1 (mm)"/>
+        <input class="delta_2_input input" type="text" placeholder="ΔY2 (mm)"/>
+        <input class="L_input input" type="text" placeholder="L (m)"/>
+        <input class="F_input input" type="text" placeholder="F (N)"/>
+
+        <button class="submitButton" type="submit">Calculate</button>
+
+    <script>
+        function calc() {
+            let delta_1 = document.querySelector(".delta_1_input").value;
+            let delta_2 = document.querySelector(".delta_2_input").value;
+            let F_input = document.querySelector(".F_input").value;
+            let L_input = document.querySelector(".L_input").value;
+
+            // if (!isNumber(delta_1, delta_2, F_input, L_input)) {
+            //     console.log("Not a number!");
+            // }
+
+            delta_1 = delta_1 / 1000;
+            delta_2 = delta_2 / 1000;
+
+            let deg = (((Math.abs(delta_1) + Math.abs(delta_2)) / (2 * L_input)));
+            deg = Math.atan(deg);
+            deg = deg * (180 / Math.PI) // radian to deg
+            
+            result = (F_input * L_input) / deg;
+
+            console.log(Number.parseFloat(result).toFixed(4));
+        }
+
+        function isNumber(...value) {
+            return typeof value.every === 'number';
+        }
+
+
+        const submitButton = document.querySelector(".submitButton")
+        submitButton.addEventListener("click", calc);
+    </script>
+</body>
+</html>
