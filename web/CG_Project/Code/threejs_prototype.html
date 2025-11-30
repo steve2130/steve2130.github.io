@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js Prototype - Epic Car vs Giant Deer Showdown</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #87CEEB;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            max-width: 300px;
+        }
+        #warning {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            background: rgba(255, 165, 0, 0.9);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            max-width: 250px;
+        }
+        #rewindButton {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 123, 255, 0.9);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        #rewindButton:hover {
+            background: rgba(0, 123, 255, 1);
+        }
+    </style>
+</head>
+<body>
+    <div style="display: none;" id="info">
+        <strong>Three.js Prototype</strong><br>
+        Epic Rural Car vs Deer Showdown<br>
+        Dynamic 3D animation with dramatic collision sequence<br>
+        <br>
+        <em>Complete Animation Sequence:</em><br>
+        🚗 Car drives → 🦌 Deer crosses → 💥 Collision & Recovery<br>
+        🦌 Deer grows giant → 🍽️ Eats → 🏃‍♂️ Charges → 💥 Headbutts car!<br>
+        🚗 Car flies & flips → 💥 Crashes → 🔄 Deer shrinks → 📹 Camera zooms<br>
+        🦌 Deer crosses peacefully → 🔄 Loop<br>
+        <br>
+        <em>Advanced Features:</em><br>
+        • Physics-based car flight with gravity & rotation<br>
+        • Smooth scale transitions (1x ↔ 2x deer)<br>
+        • Dynamic camera movements & zooms<br>
+        • Atmospheric fog effects<br>
+        • Intelligent deer AI with state machines<br>
+        • GLTF model loading with animations<br>
+        • Dynamic lighting & shadows<br>
+        • Interactive rewind button<br>
+        • Keyboard controls: 1,2,3 (deer animations)
+    </div>
+
+    <div id="warning">
+        <strong>⚠️ NOTE:</strong><br>
+        This is a Three.js prototype.<br>
+        Final project must use pure WebGL only!
+    </div>
+
+    <button id="rewindButton">🔄 Rewind Scene</button>
+
+    <script type="module" src="three.js"></script>
+</body>
+</html>
