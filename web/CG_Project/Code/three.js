@@ -499,7 +499,7 @@ let carStopped = false;
 // Deer animation variables
 let deerCrossing = false;
 let deerStartTime = 0;
-let deerCrossDuration = 3000; // 3 seconds to cross (slower physical movement)
+let deerCrossDuration = 2800; // 3 seconds to cross (slower physical movement)
 let deerStartX = -8;
 let deerEndX = 8;
 let deerSpeed = 2; // Normal deer walking speed
