@@ -28,17 +28,17 @@
             top: 10px;
             right: 10px;
             color: white;
-            background: rgba(255, 165, 0, 0.9);
+            background: rgba(20, 232, 161, 0.9);
             padding: 10px;
             border-radius: 5px;
             font-size: 12px;
-            max-width: 250px;
+            max-width: auto;
         }
         #rewindButton {
             position: absolute;
             top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 0%;
+            transform: translateX(10%);
             background: rgba(0, 123, 255, 0.9);
             color: white;
             border: none;
@@ -48,6 +48,7 @@
             cursor: pointer;
             font-weight: bold;
             transition: background-color 0.3s;
+
         }
         #rewindButton:hover {
             background: rgba(0, 123, 255, 1);
@@ -75,13 +76,11 @@
         • GLTF model loading with animations<br>
         • Dynamic lighting & shadows<br>
         • Interactive rewind button<br>
-        • Keyboard controls: 1,2,3 (deer animations)
+        • Spacebar jetpack jump (before collision)
     </div>
 
     <div id="warning">
-        <strong>⚠️ NOTE:</strong><br>
-        This is a Three.js prototype.<br>
-        Final project must use pure WebGL only!
+        Try pressing the spacebar when the car is approaching!
     </div>
 
     <button id="rewindButton">🔄 Rewind Scene</button>

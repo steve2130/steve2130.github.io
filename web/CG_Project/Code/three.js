@@ -294,33 +294,6 @@ loadDeerModel(function(deerModel, animations) {
     }
 
 
-    // Add keyboard controls for deer animations
-    window.addEventListener('keydown', function(event) {
-        if (!deerMixer || !deerAnimations.length) return;
-
-        let animationIndex = -1;
-
-        switch(event.key) {
-            case '1':
-                animationIndex = 0;
-                break;
-            case '2':
-                animationIndex = 1;
-                break;
-            case '3':
-                animationIndex = 2;
-                break;
-        }
-
-        if (animationIndex >= 0 && animationIndex < deerAnimations.length) {
-            // Stop all current animations
-            deerMixer.stopAllAction();
-
-            // Play the selected animation
-            const action = deerMixer.clipAction(deerAnimations[animationIndex]);
-            action.play();
-        }
-    });
 
 });
 
@@ -396,6 +369,60 @@ barnLoader.load(
         // Could add a fallback simple barn here if needed
     }
 );
+
+// Wheat farm setup
+let wheatFarm;
+const wheatFarmLoader = new GLTFLoader();
+wheatFarmLoader.load(
+    '../Model/wheat_farm/scene.gltf',
+    function (gltf) {
+        wheatFarm = gltf.scene;
+
+        // Scale and position the wheat farm appropriately for background
+        wheatFarm.scale.set(3, 3, 3); // Very small scale for distant background element
+        wheatFarm.position.set(-10, 0, 1); // Position far to the right and further back
+        wheatFarm.rotation.y = 0; // Slight counter-rotation for visual interest
+
+        // Enable shadows for wheat farm
+        wheatFarm.traverse(function (child) {
+            if (child.isMesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+            }
+        });
+
+        scene.add(wheatFarm);
+    },
+    function (progress) {
+        // Loading progress can be logged if needed
+    },
+    function (error) {
+        console.error('Error loading wheat farm model:', error);
+        // Could add a fallback simple wheat farm here if needed
+    }
+);
+
+// Add spacebar jetpack jump functionality
+window.addEventListener('keydown', function(event) {
+    // Spacebar for jetpack jump - only works when deer is walking and hasn't been hit
+    if (event.code === 'Space' && deer && deerAnimationState === 'walking' && deerCrossing) {
+        event.preventDefault(); // Prevent page scrolling
+
+        console.log('🚀 SPACEBAR PRESSED - DEER JETPACK JUMP ACTIVATED!');
+
+        // Switch to jumping state
+        deerAnimationState = 'jetpack_jumping';
+
+        // Store jump parameters
+        jumpStartPosition = deer.position.clone();
+        jumpStartTime = animationTime;
+        jumpDuration = 2000; // 2 seconds for jump arc
+        jumpHeight = 4; // How high the deer jumps (reduced from 8)
+        jumpDistance = 10; // How far across the road the deer jumps (X-axis)
+
+        console.log('🚀 Deer launched with jetpack! Jumping across the road...');
+    }
+});
 
 // Car setup
 let car;
@@ -478,7 +505,7 @@ let deerEndX = 8;
 let deerSpeed = 2; // Normal deer walking speed
 let deerIsDead = false; // Track if deer has been hit and should stay dead
 let deerReverseDieTimeout = null; // Track reverse animation timeout
-let deerAnimationState = 'walking'; // Track current animation state: 'walking', 'dying', 'recovering', 'standing_after_recovery', 'facing_car', 'retreating', 'scaling', 'eating', 'charging', 'victorious', 'rescaling', 'rotating_to_grass', 'peaceful_crossing'
+let deerAnimationState = 'walking'; // Track current animation state: 'walking', 'dying', 'recovering', 'standing_after_recovery', 'facing_car', 'retreating', 'scaling', 'eating', 'charging', 'victorious', 'rescaling', 'rotating_to_grass', 'peaceful_crossing', 'jetpack_jumping'
 
 // Charging and car flight variables
 let deerChargeTarget; // Position the deer is charging toward
@@ -493,6 +520,13 @@ let carGravity; // Gravity acceleration
 // Camera zoom variables
 let cameraZoomStart; // Camera Z position before zoom
 let cameraZoomTarget; // Camera Z position after zoom
+
+// Jetpack jump variables
+let jumpStartTime; // When jump started
+let jumpDuration; // How long the jump takes
+let jumpHeight; // How high the deer jumps
+let jumpDistance; // How far the deer jumps
+let jumpStartPosition; // Starting position of jump
 
 // Scene reset function for rewind button
 function resetScene() {
@@ -771,6 +805,43 @@ function animate(currentTime = 0) {
                     Math.random() * 15 - 7.5  // Stronger Z rotation for rolling
                 );
                 carGravity = -20; // Gravity acceleration
+            }
+        }
+
+        // Handle deer jetpack jumping
+        if (deerAnimationState === 'jetpack_jumping') {
+            // Calculate jump progress
+            const jumpElapsed = animationTime - jumpStartTime;
+            const jumpProgress = Math.min(jumpElapsed / jumpDuration, 1);
+
+            // Parabolic jump arc: peak at 50% progress
+            const heightProgress = 1 - Math.pow(2 * jumpProgress - 1, 2);
+            const y = jumpStartPosition.y + jumpHeight * heightProgress;
+
+            // Movement across the road (X-axis from left to right)
+            const x = jumpStartPosition.x + jumpDistance * jumpProgress;
+
+            // Keep Z position stable (on the road)
+            const z = jumpStartPosition.z;
+
+            deer.position.set(x, y, z);
+
+            // Add rotation effects for jetpack jump
+            deer.rotation.z = Math.sin(jumpProgress * Math.PI * 2) * 0.5; // Barrel roll
+            deer.rotation.x = Math.sin(jumpProgress * Math.PI) * 0.3; // Forward/backward tilt
+
+            // Check if jump is complete
+            if (jumpProgress >= 1) {
+                // Land safely on the right side of the road
+                deer.position.set(jumpStartPosition.x + jumpDistance, jumpStartPosition.y, jumpStartPosition.z);
+                deer.rotation.set(0, Math.PI / 2, 0); // Reset rotation, face forward
+
+                console.log('🦌 JETPACK JUMP COMPLETED - DEER CROSSED THE ROAD SAFELY!');
+
+                // Switch to peaceful crossing (but deer has already crossed via jump)
+                deerAnimationState = 'peaceful_crossing';
+                deerCrossing = false; // Don't continue crossing since jump already completed it
+                console.log('🚶 Deer completed road crossing with jetpack jump');
             }
         }
 
