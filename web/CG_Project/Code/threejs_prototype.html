@@ -53,6 +53,56 @@
         #rewindButton:hover {
             background: rgba(0, 123, 255, 1);
         }
+        #speedControl {
+            position: absolute;
+            top: 60px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 8px;
+            color: white;
+            font-size: 12px;
+            min-width: 200px;
+        }
+        #speedControl label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        #speedSlider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #ddd;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        #speedSlider:hover {
+            opacity: 1;
+        }
+        #speedSlider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+        #speedSlider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+            border: none;
+        }
+        #speedValue {
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
     </style>
 </head>
 <body>
@@ -75,15 +125,22 @@
         • Intelligent deer AI with state machines<br>
         • GLTF model loading with animations<br>
         • Dynamic lighting & shadows<br>
+        • Street lighting system with multiple lights<br>
         • Interactive rewind button<br>
-        • Spacebar jetpack jump (before collision)
+        • Speed control slider for car speed adjustment<br>
+        • Spacebar jetpack jump (before collision) with visible jetpack model and flame effects
     </div>
 
     <div id="warning">
-        Try pressing the spacebar when the car is approaching!
+        Try adjusting car speed with the slider and pressing spacebar when the car is approaching!
     </div>
 
     <button id="rewindButton">🔄 Rewind Scene</button>
+
+    <div id="speedControl">
+        <label for="speedSlider">Car Speed: <span id="speedValue">0.07</span></label>
+        <input type="range" id="speedSlider" min="0.01" max="0.2" step="0.01" value="0.07">
+    </div>
 
     <script type="module" src="three.js"></script>
 </body>

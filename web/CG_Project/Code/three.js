@@ -330,11 +330,6 @@ function createHeadlights() {
     rightHeadlight.shadow.camera.near = 0.5;
     rightHeadlight.shadow.camera.far = 30;
 
-    // Add visible light helpers for debugging
-    // const leftHelper = new THREE.SpotLightHelper(leftHeadlight);
-    // const rightHelper = new THREE.SpotLightHelper(rightHeadlight);
-    // scene.add(leftHelper);
-    // scene.add(rightHelper);
 
 }
 
@@ -362,11 +357,9 @@ barnLoader.load(
         scene.add(barn);
     },
     function (progress) {
-        // Loading progress can be logged if needed
     },
     function (error) {
         console.error('Error loading barn model:', error);
-        // Could add a fallback simple barn here if needed
     }
 );
 
@@ -394,13 +387,132 @@ wheatFarmLoader.load(
         scene.add(wheatFarm);
     },
     function (progress) {
-        // Loading progress can be logged if needed
     },
     function (error) {
         console.error('Error loading wheat farm model:', error);
-        // Could add a fallback simple wheat farm here if needed
     }
 );
+
+// Jetpack setup
+let jetpack;
+let jetpackFlames = []; // Array to store flame particles
+const jetpackLoader = new GLTFLoader();
+jetpackLoader.load(
+    '../Model/jetpack/scene.gltf',
+    function (gltf) {
+        jetpack = gltf.scene;
+
+        // Scale and position the jetpack appropriately for deer back
+        jetpack.scale.set(0.7, 0.7, 0.7); // Small scale to fit deer
+        jetpack.position.set(10, 0, -100); // Position on deer's back
+        jetpack.rotation.x = -Math.PI /2; // Rotate to face backward
+        jetpack.rotation.z = -Math.PI / 2; 
+        jetpack.rotation.y = -Math.PI / 2; 
+
+        // Enable shadows for jetpack
+        jetpack.traverse(function (child) {
+            if (child.isMesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+            }
+        });
+
+        // Add to scene but start hidden
+        scene.add(jetpack);
+        jetpack.visible = false;
+
+        // Create flame particles for jetpack exhaust
+        createJetpackFlames();
+
+    },
+    function (progress) {
+    },
+    function (error) {
+        console.error('Error loading jetpack model:', error);
+    }
+);
+
+// Function to create flame particles for jetpack exhaust
+function createJetpackFlames() {
+    const flameCount = 16; // Number of flame particles (increased for both sides)
+
+    for (let i = 0; i < flameCount; i++) {
+        // Create flame geometry (small cone pointing downward)
+        const flameGeometry = new THREE.ConeGeometry(0.08, 0.4, 8);
+        const flameMaterial = new THREE.MeshBasicMaterial({
+            color: new THREE.Color().setHSL(0.08, 1, 0.6), // Orange flame color
+            transparent: true,
+            opacity: 0.9
+        });
+
+        const flame = new THREE.Mesh(flameGeometry, flameMaterial);
+
+        // Position flames on both sides of the jetpack exhaust
+        const isLeftSide = i < flameCount / 2; // First half on left, second half on right
+        const sideOffset = isLeftSide ? -0.05 : 0.05; // Left or right side offset
+
+        flame.position.set(
+            0, // Left or right side of jetpack
+            0, // Below jetpack (exhaust downward)
+            1 // Behind the jetpack
+        );
+
+        // Rotate to point downward (exhaust direction)
+        flame.rotation.x = Math.PI; // Flip cone to point down
+        flame.rotation.y = Math.PI / 2;
+        flame.rotation.z = -Math.PI / 2;
+
+        // Store side information for animation
+        flame.userData.isLeftSide = isLeftSide;
+
+        flame.visible = false; // Start hidden
+        scene.add(flame);
+        jetpackFlames.push(flame);
+    }
+
+}
+
+// Function to update flame animations
+function updateJetpackFlames() {
+    if (!jetpack || !jetpack.visible) {
+        // Hide all flames when jetpack is inactive
+        jetpackFlames.forEach(flame => flame.visible = false);
+        return;
+    }
+
+    jetpackFlames.forEach((flame, index) => {
+        flame.visible = true;
+
+        // Update flame position to follow jetpack exhaust (maintain left/right sides)
+        flame.position.copy(jetpack.position);
+
+        // Keep flames on their designated side with some variation
+        const baseSideOffset = flame.userData.isLeftSide ? -0.1 : 0.1;
+        const sideVariation = (Math.sin(Date.now() * 0.01 + index) - 0.5) * 0.08; // Smaller variation to stay on side
+        flame.position.x += baseSideOffset + sideVariation;
+
+        flame.position.z += 0.5; // Fixed behind jetpack
+        flame.position.y -= 0.2 + Math.sin(Date.now() * 0.015 + index) * 0.1; // Below jetpack with flicker
+
+        // Animate flame scale for dynamic fire effect
+        const baseScale = 0.7 + Math.sin(Date.now() * 0.02 + index * 0.7) * 0.4;
+        const stretch = 1 + Math.sin(Date.now() * 0.03 + index) * 0.3; // Stretch flames
+        flame.scale.set(baseScale, baseScale * stretch, baseScale);
+
+        // Animate flame opacity for realistic fire effect
+        flame.material.opacity = 0.7 + Math.sin(Date.now() * 0.04 + index) * 0.3;
+
+        // Dynamic color variation for realistic flames (orange to yellow)
+        const hue = 0.05 + Math.sin(Date.now() * 0.02 + index) * 0.03; // Vary hue slightly
+        const saturation = 0.9 + Math.sin(Date.now() * 0.025 + index) * 0.1;
+        const lightness = 0.5 + Math.sin(Date.now() * 0.03 + index) * 0.2;
+        flame.material.color.setHSL(hue, saturation, lightness);
+
+        // Animate flame rotation for turbulence effect
+        flame.rotation.z += 0.02;
+        flame.rotation.y += Math.sin(Date.now() * 0.01 + index) * 0.01;
+    });
+}
 
 // Add spacebar jetpack jump functionality
 window.addEventListener('keydown', function(event) {
@@ -413,6 +525,16 @@ window.addEventListener('keydown', function(event) {
         // Switch to jumping state
         deerAnimationState = 'jetpack_jumping';
 
+        // Show and position jetpack on deer's back
+        if (jetpack && deer) {
+            jetpack.visible = true;
+            // Position jetpack relative to deer's current position
+            jetpack.position.copy(deer.position);
+            jetpack.position.x += 1; // Same height as deer
+            jetpack.position.z += 2; // On deer's back
+            jetpack.position.y += 3; // Same height as deer
+        }
+
         // Store jump parameters
         jumpStartPosition = deer.position.clone();
         jumpStartTime = animationTime;
@@ -420,9 +542,80 @@ window.addEventListener('keydown', function(event) {
         jumpHeight = 4; // How high the deer jumps (reduced from 8)
         jumpDistance = 10; // How far across the road the deer jumps (X-axis)
 
-        console.log('🚀 Deer launched with jetpack! Jumping across the road...');
     }
 });
+
+// Street light setup
+let streetLightModel;
+let streetLights = [];
+let streetLightSources = [];
+
+const streetLightLoader = new GLTFLoader();
+streetLightLoader.load(
+    '../Model/street_light/scene.gltf',
+    function (gltf) {
+        streetLightModel = gltf.scene;
+
+        // Scale and configure the base street light model
+        streetLightModel.scale.set(0.8, 0.8, 0.8); // Appropriate scale for street lights
+        streetLightModel.rotation.y = Math.PI; // Face toward the road
+
+        // Enable shadows for the model
+        streetLightModel.traverse(function (child) {
+            if (child.isMesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+            }
+        });
+
+        // Create multiple street lights along the road
+        createStreetLights();
+
+    },
+    function (progress) {
+    },
+    function (error) {
+        console.error('Error loading street light model:', error);
+        // Could create simple fallback street lights here if needed
+    }
+);
+
+// Function to create multiple street lights with lighting
+function createStreetLights() {
+    const lightCount = 4; // Number of street lights
+    const roadLength = 100; // Approximate road length
+    const spacing = 20; // Even spacing
+
+    for (let i = 0; i < lightCount; i++) {
+        // Clone the street light model
+        const streetLight = streetLightModel.clone();
+
+        // Position along the road (Z-axis)
+        const zPosition = -roadLength/2 + (i * spacing);
+        streetLight.position.set(4, 0, zPosition); // Position to the right of the road
+
+        scene.add(streetLight);
+        streetLights.push(streetLight);
+
+        // Create and attach a spot light to each street light
+        const spotLight = new THREE.SpotLight(0xffffff, 2, 25, Math.PI / 6, 0.5, 2);
+        spotLight.position.set(4, 0, zPosition); // Position at the top of the light
+        spotLight.target.position.set(0, 0, zPosition); // Point toward the road center
+
+        // Enable shadows for the light
+        spotLight.castShadow = true;
+        spotLight.shadow.mapSize.width = 1024;
+        spotLight.shadow.mapSize.height = 1024;
+        spotLight.shadow.camera.near = 0.5;
+        spotLight.shadow.camera.far = 25;
+
+        scene.add(spotLight);
+        scene.add(spotLight.target);
+        streetLightSources.push(spotLight);
+
+    }
+
+}
 
 // Car setup
 let car;
@@ -491,7 +684,7 @@ function createSimpleCar() {
 }
 
 // Animation variables
-let carSpeed = 0.05;
+let carSpeed = 0.07;
 let carPosition = -20;
 let originalCarSpeed = 0.05;
 let carStopped = false;
@@ -499,7 +692,7 @@ let carStopped = false;
 // Deer animation variables
 let deerCrossing = false;
 let deerStartTime = 0;
-let deerCrossDuration = 3500; // 3 seconds to cross (slower physical movement)
+let deerCrossDuration = 3000; // 3 seconds to cross (slower physical movement)
 let deerStartX = -8;
 let deerEndX = 8;
 let deerSpeed = 2; // Normal deer walking speed
@@ -550,7 +743,7 @@ function resetScene() {
     // Reset car state
     carStopped = false;
     carPosition = -20; // Reset to initial starting position
-    carSpeed = 0.05; // Ensure speed is set
+    carSpeed = originalCarSpeed; // Reset to original speed
     if (car) {
         if (car.userData.isPlaceholder) {
             // Placeholder car positioning
@@ -597,6 +790,12 @@ function resetScene() {
         walkAction.timeScale = 2.0;
         walkAction.setLoop(THREE.LoopRepeat);
         walkAction.play();
+    }
+
+    // Update speed slider display to match reset speed
+    if (speedSlider && speedValue) {
+        speedSlider.value = carSpeed;
+        speedValue.textContent = carSpeed.toFixed(2);
     }
 
 }
@@ -826,6 +1025,11 @@ function animate(currentTime = 0) {
 
             deer.position.set(x, y, z);
 
+            // Update jetpack position to follow deer
+            if (jetpack && jetpack.visible) {
+                jetpack.position.set(x, y, z); // Follow deer with offset
+            }
+
             // Add rotation effects for jetpack jump
             deer.rotation.z = Math.sin(jumpProgress * Math.PI * 2) * 0.5; // Barrel roll
             deer.rotation.x = Math.sin(jumpProgress * Math.PI) * 0.3; // Forward/backward tilt
@@ -838,10 +1042,14 @@ function animate(currentTime = 0) {
 
                 console.log('🦌 JETPACK JUMP COMPLETED - DEER CROSSED THE ROAD SAFELY!');
 
+                // Hide jetpack
+                if (jetpack) {
+                    jetpack.visible = false;
+                }
+
                 // Switch to peaceful crossing (but deer has already crossed via jump)
                 deerAnimationState = 'peaceful_crossing';
                 deerCrossing = false; // Don't continue crossing since jump already completed it
-                console.log('🚶 Deer completed road crossing with jetpack jump');
             }
         }
 
@@ -1090,6 +1298,9 @@ function animate(currentTime = 0) {
 
     camera.lookAt(0, 0, carPosition);
 
+    // Update jetpack flame animations
+    updateJetpackFlames();
+
     renderer.render(scene, camera);
 }
 
@@ -1106,6 +1317,23 @@ if (rewindButton) {
     rewindButton.addEventListener('click', () => {
         resetScene();
     });
+}
+
+// Add speed control slider functionality
+const speedSlider = document.getElementById('speedSlider');
+const speedValue = document.getElementById('speedValue');
+if (speedSlider && speedValue) {
+    // Initialize display value
+    speedValue.textContent = carSpeed.toFixed(2);
+
+    // Add event listener for slider changes
+    speedSlider.addEventListener('input', (event) => {
+        carSpeed = parseFloat(event.target.value);
+        speedValue.textContent = carSpeed.toFixed(2);
+        console.log(`🏎️ Car speed updated to: ${carSpeed}`);
+    });
+
+    console.log('🏎️ Speed control slider initialized');
 }
 
 // Start animation
