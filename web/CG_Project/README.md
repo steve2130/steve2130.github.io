@@ -1,5 +1,3 @@
-# COMP4422 Computer Graphics - Rural Car Scene
-
 ## Project Overview
 
 This WebGL application creates a 3D rural scene featuring a car driving across a grass field with a paved road. The scene includes:
@@ -146,3 +144,4 @@ Tested on:
 - Edge 120+
 
 Requires WebGL 2.0 support.
+
